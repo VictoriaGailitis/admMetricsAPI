@@ -3,7 +3,7 @@ import uvicorn
 from models import Order
 import schemas
 from fastapi.middleware.cors import CORSMiddleware
-from datetime import datetime
+from peewee import *
 
 app = FastAPI()
 
@@ -41,6 +41,16 @@ def create_order(data: schemas.Order):
         return {'status': "ok"}
     except:
         return {"status": "error"}
+
+@app.get("/revenue")
+def get_revenue():
+    try:
+        query = Order.select(fn.date_trunc('day', Order.order_date).alias("date"), fn.SUM(Order.order_sum)).group_by(
+            fn.date_trunc('day', Order.order_date).alias("date")).order_by(
+                fn.date_trunc('day', Order.order_date).alias("date")).dicts()
+        return {'revenue':list(query)}
+    except:
+        return {'status': "error"}
 
 if __name__ == "__main__":
     uvicorn.run(app)
