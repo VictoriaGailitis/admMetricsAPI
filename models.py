@@ -14,7 +14,7 @@ class BaseModel(Model):
 class Order(BaseModel):
     order_id = AutoField(column_name='order_id')
     product_id = IntegerField(column_name='product_id')
-    order_date = TimestampField(column_name='order_date', null=False)
+    order_date = DateTimeField(column_name='order_date', null=False)
     product_quantity = IntegerField(column_name='product_quantity', null=False)
     order_sum = IntegerField(column_name='order_sum', null=False)
 
