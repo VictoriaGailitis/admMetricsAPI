@@ -35,7 +35,7 @@ def create_order(data: schemas.Order):
             order_id = query[len(query)-1]["order_id"] + 1
         except:
             order_id = 1
-        order = Order.create(order_id=order_id, product_id=data.product_id, order_date=f'{data.order_date :%Y-%m-%d %H:%M:%S}', 
+        order = Order.create(order_id=order_id, product_id=data.product_id, order_date=data.order_date, 
                         product_quantity=data.product_quantity, order_sum=data.order_sum)
         order.save()
         return {'status': "ok"}
