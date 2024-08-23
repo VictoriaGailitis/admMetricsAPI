@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import uvicorn
-from models import Order
+from models import Order, Product
 import schemas
 from fastapi.middleware.cors import CORSMiddleware
 from peewee import *
@@ -26,8 +26,8 @@ def get_orders():
         query = Order.select().order_by(Order.order_id).dicts()
         result = list(query)
         for item in result:
-            query_product = requests.get(f'https://products-api-five.vercel.app/products/{item["product_id"]}').json()
-            item["product_name"] = query_product["product"]["product_name"]
+            query_product = Product.get_by_id(item["product_id"])
+            item["product_name"] = query_product.__data__["product_name"]
         return {'orders':result}
     except:
         return {'error': "no records in table"}

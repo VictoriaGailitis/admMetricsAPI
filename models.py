@@ -20,3 +20,12 @@ class Order(BaseModel):
 
     class Meta:
         table_name = 'orders'
+
+class Product(BaseModel):
+    product_id = AutoField(column_name='product_id')
+    product_name = CharField(column_name='product_name', max_length=255, null=False)
+    product_description = CharField(column_name='product_description', max_length=1000, null=False)
+    product_price = IntegerField(column_name='product_price', null=False)
+
+    class Meta:
+        table_name = 'products'
